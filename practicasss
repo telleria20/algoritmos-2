@@ -1,0 +1,50 @@
+#include<iostream>
+#include<conio.h>
+#include<string.h>
+#define MAXFIL 10
+#define MAXCOL 10
+using namespace std;
+
+void cargar(int mat[MAXFIL][MAXCOL],int n,int m){
+int i,j;
+for(i=0;i<n;i++){
+	for(j=0;j<m;j++){
+		cout<<"ingrese un numero entero:";
+		cin>>mat[i][j];
+	}
+  }
+}
+void mostrar(int mat[MAXFIL][MAXCOL],int n,int m){
+int i,j;
+for(i=0;i<n;i++){
+	for(j=0;j<m;j++){
+		cout<<mat[i][j]<<" ";
+	}
+	cout<< endl;
+  }
+}
+void modificarmatriz(int mat[MAXFIL][MAXCOL],int n,int m){
+	int i,j,a;
+	for(i=0;i<n;i++
+		){
+		for(j=0;j<m;j++){
+			if(i<j){
+				a=mat[i][j];
+				mat[i][j]=mat[j][i];
+				mat[j][i]=a;
+			}
+		}
+	}
+}
+
+void main(){
+int mat[MAXFIL][MAXCOL],n,m;
+cout<<"ingrese el tamaño de filas:";
+cin>>n;
+cout<<"ingrese el tamaño de columnas:";
+cin>>m;
+cargar(mat,n,m);
+modificarmatriz(mat,n,m);
+mostrar(mat,n,m);
+getch();
+}

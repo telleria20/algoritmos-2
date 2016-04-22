@@ -1,0 +1,66 @@
+#include<iostream>
+#include<conio.h>
+#include<string.h>
+#define MAXFIL 10
+#define MAXCOL 10
+
+using namespace std;
+struct vecdemat{
+	int mat[10][10];
+};
+void cargar(vecdemat vec[],int n){
+int i,j,k,c=1;
+for(i=0;i<n;i++){
+	for(j=0;j<n;j++){
+		for(k=0;k<n;k++){
+			if(j==k){
+				vec[i].mat[j][k]=c;
+				c++;
+			}
+		}
+	}
+}
+for(i=0;i<n;i++){
+	for(j=0;j<n;j++){
+		for(k=0;k<n;k++){
+			if(j<k){
+				vec[i].mat[j][k]=c;
+				c++;
+			}
+		}
+	}
+}
+for(i=0;i<n;i++){
+	for(j=0;j<n;j++){
+		for(k=0;k<n;k++){
+			if(k<j){
+				vec[i].mat[j][k]=c;
+				c++;
+			}
+		}
+	}
+}
+
+}
+void mostrar(vecdemat vec[],int n){
+int i,j,k;
+for(i=0;i<n;i++){
+	for(j=0;j<n;j++){
+		for(k=0;k<n;k++){
+				cout<<vec[i].mat[j][k]<<" ";
+			}
+		cout<<endl;
+		}
+	cout<<endl;
+	}
+}
+void main(){
+	vecdemat vec[10];
+	int n;
+cout<<"ingrese el tamaño del vector:";
+cin>>n;
+cargar(vec,n);
+mostrar(vec,n);
+getch();
+
+}

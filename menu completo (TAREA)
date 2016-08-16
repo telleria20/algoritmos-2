@@ -1,0 +1,129 @@
+#include <iostream>
+#include<conio.h>
+#include<stdio.h>
+using namespace std;
+int contardigitos(int n){
+	int c=0;
+	while(n>0){
+	n=n/10;
+	c=c+1;
+	}
+	return(c);
+	}
+int sumadedigitos(int n){
+	int s=0,u;
+	while(n>0){
+	u=n%10;
+	s=s+u;
+	n=n/10;
+	}
+	return(s);
+}
+int invertir(int n){
+	int d,nro=0;
+		while(n>0){
+		d=n%10;
+		nro=(nro*10)+d;
+		n=n/10;
+		}
+		return(nro);
+}
+bool esprimo(int n){
+	int i;
+	bool k=true;
+	for(i=2;i<n;i++){
+		if(n%i==0){
+		k=false;
+		}
+	}
+	return(k);
+}
+int sumadeprimos(int n){
+	int d,s=0;
+		while(n>0){
+			d=n%10;
+			if(esprimo(d)==true){
+				s=s+d;
+			}
+			n=n/10;
+		}
+		return(s);
+}
+int concatenar(int n1,int n2){
+	int i,d,s=0;
+	d=contardigitos(n2);
+	for(i=1;i<=d;i++){
+		n1=n1*10;
+	}
+	s=n1+n2;
+	return(s);
+}
+int sumademayores(int n){
+	int d,u,u2;
+	int s=0;
+		d=invertir(n);
+		u=d%10;
+		s=u;
+		d=d/10;
+		while(d>0){
+			u2=d%10;
+			d=d/10;
+			if(u<u2){
+			s=s+u2;
+			u=u2;
+			}
+		}	
+		return(s);
+}
+
+void main(){
+	int n,d,suma,opcion,inv,sp,c,n1,sm;
+	do{
+		cout<<"ingrese el numero:";
+		cin>>n;
+		cout<<"ingrese un segundo numero:";
+		cin>>n1;
+		if(n<=0){
+		cout<<endl<<" el numero no puede ser menor a 0,ingrese un numero natural :"<<endl;
+		}
+	}
+	while(n<=0);
+
+	do{
+		cout<<endl<<"-------------MENÚ-----------------";
+		cout<<endl<<"1.-contar digitos";
+		cout<<endl<<"2.-suma de digitos";
+		cout<<endl<<"3.-invertir numero";
+		cout<<endl<<"4.-suma de primos";
+		cout<<endl<<"5.-concatenar numero";
+		cout<<endl<<"6.-suma de los mayores";
+		cout<<endl<<"0.-salir";
+		cout<<endl<<"seleccione una opcion:";
+		cin>>opcion;
+		switch(opcion){
+		case 1: d=contardigitos(n);
+		cout<<endl<<"la cantidad de digitos es:"<<d;
+		break;
+		case 2 : suma=sumadedigitos(n);
+		cout<<endl<<"la suma de digitos es:"<<suma;
+		break;	
+		case 3 : inv=invertir(n);
+	    cout<<endl<<"el numero invertido es:"<<inv;
+		break;
+		case 4 : sp=sumadeprimos(n);
+		cout<<endl<<"la suma de los primos es:"<<sp;
+		break;
+		case 5 : c=concatenar(n,n1);
+		cout<<endl<<"el numero concatenado es:"<<c;
+		break;
+		case 6 : sm=sumademayores(n);
+		cout<<endl<<"la suma de los mayores es:"<<sm;
+	    break;
+		}
+
+	}
+	while(opcion!=0);
+	}
+	
+
+//realizar una funcion que dado un numero natural elimine todos los digitos primos de dicho numero

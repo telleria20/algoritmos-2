@@ -1,0 +1,97 @@
+#include <iostream>
+#include<conio.h>
+#include<stdio.h>
+using namespace std;
+void generarnum(int n){
+	int i;
+	for(i=1;i<=n;i++){
+	cout<<""<<i;
+	}
+}
+void mostrarimpares(int n){
+	int i,imp=1;
+	for(i=1;i<=n;i++){
+		cout<<""<<imp;
+		imp=imp+2;
+    }
+}
+bool verificarprimo(int n){
+	bool k=true;
+	int i;
+	for(i=2;i<n;i++){
+		if(n%i==0){
+		k=false;
+		}
+	}
+	return(k);
+}
+void generarprimos(int n){
+	int c=1;
+	while(n>0){
+		if(verificarprimo(c)==true){
+		cout<<" "<<c;
+		n--;
+		}
+		c++;
+	}
+}
+int obtenerNprimo(int n){
+	int c=0,cp=0;
+	while(cp<n){
+		c++;
+		if(verificarprimo(c)==true){
+		cp++;
+		}	
+	}
+	return(c);
+}
+void generarprimosop2(int n){
+	int i;
+	for(i=1;i<=n;i++){
+		cout<<" "<<obtenerNprimo(i);
+	}
+}
+void impar_primo_par(int n){
+	int i,k=0,ci=1,cp=1,cpar=2,c=1;
+	for(i=0;i<n;i++){
+		if(k==0){
+			cout<<" "<<ci;
+			ci=ci+2;
+			k=1;
+	    }
+		else{
+			if(k==1){
+				cout<<" "<<obtenerNprimo(cp);
+				cp++;
+				k=2;
+			}
+			else{
+				cout<<" "<<cpar;
+				cpar=cpar+2;
+				k=0;
+			}
+        }
+	}
+}
+void generarfibo(int n){
+	int i,a=0,b=1,c=a+b;
+		for(i=1;i<=n;i++){
+			cout<<" "<<c;
+			a=c;
+			b++;
+			c=a+b;
+		}
+}
+void main(){
+	int n;
+		cout<<"ingrese el numero:";
+		cin>>n;
+		//generarnum(n);
+		//mostrarimpares(n);
+		//generarprimos(n);
+		//cout <<obtenerNprimo(n);
+		//generarprimosop2(n);
+		//impar_primo_par(n);
+		generarfibo(n);
+		getch();
+}

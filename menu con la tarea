@@ -84,8 +84,7 @@ int eliminarprimos(int n){
 			}
 			n=n/10;
 		}
-		invertir(r);
-	return(r);
+	return(invertir(r));
 }
 
 void main(){
@@ -140,6 +139,3 @@ void main(){
 	}
 	while(opcion!=0);
 	}
-	
-
-//realizar una funcion que dado un numero natural elimine todos los digitos primos de dicho numero

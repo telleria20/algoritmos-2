@@ -1,0 +1,87 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+using namespace std;
+//1//
+int contardigitos(int n){
+int c;
+	while(n>0){
+		n=n/10;
+		c++;
+	}
+	return(c);
+}
+int uniondenumeros(int a,int b){
+int c,i,u;
+	if(a>b){
+	c=contardigitos(a);
+	u=b;
+			for(i=0;i<c;i++){
+				u=u*10;
+			}
+			u=u+a;
+	}
+	else{
+		c=contardigitos(b);
+		u=a;
+			for(i=0;i<c;i++){
+				u=u*10;
+			}
+			u=u+b;
+	}
+	return(u);
+}
+//bool serepite?(int n){
+	//bool k=false;
+	//int i;//
+	//for(i=0;i<n;i++){
+		//for(j=0;j<n;j++){//
+		
+		//}//
+	//}//
+//}//
+int invertirnum(int n){
+	int inv,d;
+	while(n>0){
+		d=n%10;
+		inv=(inv*10)+d;
+		n=n/10;
+	}
+	return(inv);
+}
+int encontrarelmayor(int n){
+	int digant=n%10;
+	int digact,may;
+	n=n/10;
+		while(n>0){
+		digact=n%10;
+			if(digant>digact){
+			may=digant;	
+			}
+			digant=digact;
+			n=n/10;
+		}
+	return(may);
+}
+int eliminarmayor(int n){
+int d,em=0,may;
+may=encontrarelmayor(n);
+	while(n>0){
+	d=n%10;
+		if(d!=may){
+		em=(em*10)+d;
+		}
+		n=n/10;
+	}
+	return(invertirnum(em));
+}
+void main(){
+	int a,b,r;
+	cout<<"ingrese el primer numero:";
+	cin>>a;
+	//cout<<"ingrese el segundo numero:";
+	//cin>>b;
+	r=eliminarmayor(a);
+	cout<<r;
+	getch();
+}

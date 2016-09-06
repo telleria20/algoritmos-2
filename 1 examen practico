@@ -1,0 +1,84 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+using namespace std;
+void cargar(int v[],int n){
+	int i;
+	for(i=0;i<n;i++){
+		cout<<"ingrese el numero:";
+		cin>>v[i];
+	}
+}
+void mostrar(int v[],int n){
+	int i;
+	cout<<endl;
+	for(i=0;i<n;i++){
+		cout<<" "<<v[i];
+	}
+}
+bool verificarfibbo(int n){
+	bool k=false;
+	int a=-1,b=1,c=0;
+		while(c<n){
+		c=a+b;
+		a=b;
+		b=c;
+		}
+		if(c==n){
+			k=true;
+		}
+		return(k);
+}
+void ordenar(int v[],int n){
+	int i,j,aux;
+	for(i=0;i<n;i++){
+		for(j=i+1;j<n;j++){
+			if(v[i]>v[j]){
+				aux=v[i];
+				v[i]=v[j];
+				v[j]=aux;
+			}
+		}
+	}
+}	
+		
+
+
+void cargarfibbo(int v1[],int n1,int v2[],int &n2){
+	int i,vaux[50],c=0;
+	int k=0,j,na=0;
+	for(i=0;i<n1;i++){
+		if(verificarfibbo(v1[i])==true){
+			vaux[na]=v1[i];
+			na++;
+		}
+    }
+	int nd=na/2;
+	int ni=((na/2)-1);
+	ordenar(vaux,na);
+	for(j=0;j<na;j++){
+		if(k==0){
+			v2[nd]=vaux[j];
+			nd++;
+			k=1;
+		}
+		else{
+			v2[ni]=vaux[j];
+			ni--;
+			k=0;
+		}
+		
+	}
+	n2=na;
+}
+void main(){
+	int n1,n2;
+	int v1[90],v2[90];
+	cout<<"ingrese el tamaño de n1";
+	cin>>n1;
+	cargar(v1,n1);
+	mostrar(v1,n1);
+	cargarfibbo(v1,n1,v2,n2);
+	mostrar(v2,n2);
+	getch();
+}

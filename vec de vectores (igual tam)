@@ -67,7 +67,7 @@ int sumadetcasilla(tvector vec[],int n){
 }
 void invertir(int vec[],int n){
 	int i,aux;
-	for(i=0;i<n;i++){
+	for(i=0;i<n/2;i++){
 		aux=vec[i];
 		vec[i]=vec[n-1-i];
 		vec[n-1-i]=aux;
@@ -79,6 +79,7 @@ void invertirsvec(tvector vec[],int n){
 		invertir(vec[i].svec,n);
 	}
 }
+
 void main(){
 tvector vec[90];
 int n,sum,sp,sc;

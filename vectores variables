@@ -1,0 +1,85 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+using namespace std;
+struct tvectorvar{
+	int svec[100];
+	int nsvec;
+};
+void cargar(tvectorvar vec[],int n){
+	int i,j;
+	for(i=0;i<n;i++){
+		cout<<"ingrese el tamaño del subvector:";
+		cin>>vec[i].nsvec;
+		for(j=0;j<vec[i].nsvec;j++){
+			cout<<"ingrese el numero:";
+			cin>>vec[i].svec[j];
+		}	
+	}
+}
+void mostrar(tvectorvar vec[],int n){
+	int i,j;
+	for(i=0;i<n;i++){
+		for(j=0;j<vec[i].nsvec;j++){
+			cout<<vec[i].svec[j]<<" ";
+		}
+		cout<<" ";
+	}
+}
+bool escapicua(int n){
+	bool k=false;
+	int c,nm=0,d;
+	c=n;
+	while(c>0){
+		d=c%10;
+		nm=(nm*10)+d;
+		c=c/10;
+	}
+	if(nm==n){
+		k=true;
+	}
+	return(k);
+}
+void cargarcapicuas(tvectorvar vec[],int n,tvectorvar vec2[]){
+	int i,j;
+	for(i=0;i<n;i++){
+		vec2[i].nsvec=0;
+		for(j=0;j<n;j++){
+			if(escapicua(vec[i].svec[j])==true){
+				vec2[i].svec[vec2[i].nsvec]=vec[i].svec[j];
+				vec2[i].nsvec++;
+			}
+		}
+	
+	}
+}
+void eliminarnocapicuas(tvectorvar vec[],int n){
+	int i,j,k;
+	for(i=0;i<n;i++){
+		for(j=0;j<vec[i].nsvec;j++){
+			if(escapicua(vec[i].svec[j])==false){
+				for(k=j;k<vec[i].nsvec-1;k++){
+					vec[i].svec[k]=vec[i].svec[k+1];
+				}
+				vec[i].nsvec--;
+				j--;
+			}
+		}
+	}
+}
+void main(){
+tvectorvar vec[100];
+tvectorvar vec2[100];
+int n;
+cout<<"ingrese tamaño del vector:";
+cin>>n;
+cargar(vec,n);
+mostrar(vec,n);
+cout<<endl;
+cargarcapicuas(vec,n,vec2);
+mostrar(vec2,n);
+cout<<endl;
+eliminarnocapicuas(vec,n);
+mostrar(vec,n);
+getch();
+}

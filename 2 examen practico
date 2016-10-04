@@ -1,0 +1,94 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+using namespace std;
+#define fil 50
+#define col 50
+void cargar(int mat[fil][col],int n,int m){
+	int i,j;
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			cout<<"ingrese el numero:";
+			cin>>mat[i][j];
+		}
+	}
+}
+void mostrar(int mat[fil][col],int n,int m){
+	int i,j;
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			cout<<mat[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+}
+bool esfibbo(int n){
+	bool k=false;
+	int a=-1,b=1,c=0;
+		while(c<n){
+			c=a+b;
+			a=b;
+			b=c;
+		}
+		if(c==n){
+			k=true;
+		}
+	return(k);
+}
+void mostrarvec(int vec[],int n){
+	int i;
+	for(i=0;i<n;i++){
+		cout<<vec[i]<<" ";
+	}
+}
+void vecfibbo(int mat[fil][col],int n,int m,int vec[]){
+	int i,j;
+	for(i=0;i<n;i++){
+		vec[i]=0;
+		for(j=0;j<m;j++){
+			if(esfibbo(mat[i][j])==true){
+				vec[i]=(vec[i]*10)+mat[i][j];
+			}
+		}
+	}
+}
+void cargarmat(int mat[fil][col],int n){
+	int i,j,c=1,k=0,v=n-1;
+	for(i=0;i<n;i++){
+		if(k==0){
+		for(j=0;j<n;j++){
+			mat[j][i]=c;
+			c++;
+				if(j==n-1){
+					k=1;
+				}
+			}
+		}
+		if(k==1){
+		for(j=0;j<n;j++){	
+				mat[j][v]=c;
+				c++;
+				if(j==n-1){
+					k=0;
+				}
+			}
+		}
+		v--;
+	}
+}
+void main(){
+	int mat[fil][col];
+	int vec[50];
+	int n,m;
+	cout<<"ingrese el tamaño de n:";
+	cin>>n;
+	cout<<"ingrese el tamaño de m:";
+	cin>>m;
+	//cargar(mat,n,m);
+	//mostrar(mat,n,m);
+	//vecfibbo(mat,n,m,vec);
+	//mostrarvec(vec,n);
+	cargarmat(mat,n);
+	mostrar(mat,n,n);
+	getch();
+}

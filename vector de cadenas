@@ -1,0 +1,42 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+#include <string.h>
+using namespace std;
+struct tcadena{
+	char cad[50];
+};
+void cargar(tcadena vec[],int n){
+	int i;
+	for(i=0;i<=n;i++){
+		cout<<"ingrese la cadena:";
+		gets(vec[i].cad);
+	}
+}
+void mostrar(tcadena vec[],int n){
+	int i;
+	for(i=0;i<=n;i++){
+		cout<<vec[i].cad<<" ";
+	}
+}
+void invertir(tcadena vec[],int n){
+	int i;
+	char aux[100];
+	for(i=0;i<=n/2;i++){
+		strcpy(aux,vec[i].cad);
+		strcpy(vec[i].cad,vec[n-1-i].cad);
+		strcpy(vec[n-1-i].cad,aux);
+	}
+}
+void main(){
+	tcadena vec[100];
+	int n;
+	cout<<"ingrese el tamaño del vector:";
+	cin>>n;
+	cargar(vec,n);
+	mostrar(vec,n);
+	cout<<endl;
+	invertir(vec,n);
+	mostrar(vec,n);
+	getch();
+}

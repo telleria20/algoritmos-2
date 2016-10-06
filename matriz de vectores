@@ -1,0 +1,80 @@
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <math.h>
+
+using namespace std;
+
+#define fil 20
+#define col 20
+#define max 20
+
+
+struct tvector
+{
+	int v[max];
+};
+
+void cargar(tvector mat[fil][col],int n,int m){
+	int i,j,k;
+	cout<<endl;
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			for(k=0;k<n;k++){
+				cout<<"Ingrese el elemento:";
+				cin>>mat[i][j].v[k];
+			}
+		}
+	}
+}
+void mostrar(tvector mat[fil][col],int n,int m)
+{
+	int i,j,k;
+	cout<<endl;
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			for(k=0;k<n;k++){
+				cout<<mat[i][j].v[k]<<" ";
+			}
+			cout<<"  ";
+		}
+		cout<<endl;
+	}
+}
+void cargarparimparseguido(tvector mat[fil][col],int n,int m){
+	int i,j,k,cs=1,cp=2,ci=1;
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			for(k=0;k<n;k++){
+				if(i<j){
+					mat[i][j].v[k]=cs;
+					cs++;
+				}
+				else{
+					if(i>j){
+						mat[i][j].v[k]=cp;
+						cp=cp+2;
+					}
+					else{
+						mat[i][j].v[k]=ci;
+						ci=ci+2;
+					}
+				}
+			}
+		}
+	}
+}
+void main()
+{
+	int n,m;
+	tvector mat[fil][col];
+	cout<<"Ingrese el numero de filas de la matriz: ";
+	cin>>n;
+	cout<<"Ingrese el numero de columnas de la matriz: ";
+	cin>>m;
+	//cargar(mat,n,m);
+	//mostrar(mat,n,m);
+	cargarparimparseguido(mat,n,m);
+	mostrar(mat,n,m);
+	getch();
+}

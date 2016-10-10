@@ -1,0 +1,60 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+#include <string.h>
+using namespace std;
+#define fil 20
+#define col 20
+struct tmatriz{
+	char mat[fil][col];
+};
+void cargarcadena(char v[],int m){
+	int i;
+	for(i=0;i<m;i++){
+		cout<<"ingrese el caracter:";
+		cin>>v[i];
+	}
+}
+void cargarcaracteres(tmatriz vec[],int n,char cad[]){
+	int i,j,cont=0,c=0,nc;
+	nc=strlen(cad);
+	while(cont<n){
+		for(i=0;i<n;i++){
+			for(j=0;j<n;j++){
+				if(c==nc){
+					c=0;
+				}
+				vec[i].mat[cont][j]=cad[c];
+				c++;
+			}
+		}
+    cont++;
+	}
+}
+void mostrar(tmatriz vec[],int n){
+	int i,j,k;
+		for(i=0;i<n;i++){
+			for(j=0;j<n;j++){
+				for(k=0;k<n;k++){
+					cout<<vec[i].mat[j][k];				
+				}
+				cout<<endl;
+			}
+			cout<<endl;
+		}
+}
+void main(){
+	tmatriz vec[100];
+	int n;
+	char cad[100];
+	int m;
+	cout<<"ingrese el tamaño del vector:";
+	cin>>n;
+	cout<<"ingrese el tamaño de la cadena:";
+	cin>>m;
+	cargarcadena(cad,m);
+	cargarcaracteres(vec,n,cad);
+	mostrar(vec,n);
+	getch();
+}
+

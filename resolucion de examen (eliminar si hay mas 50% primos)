@@ -1,0 +1,86 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+using namespace std;
+#define fil 20
+#define col 20
+struct tvector{
+	int vec[100];
+	int nvec;
+};
+void cargar(tvector mat[fil][col],int n,int m){
+	int i,j,k;
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			cout<<"ingrese el tamaño del vector: ";
+			cin>>mat[i][j].nvec;
+			for(k=0;k<mat[i][j].nvec;k++){
+				cout<<"ingrese el numero:";
+				cin>>mat[i][j].vec[k];
+			}
+		}
+	}
+}
+void mostrar(tvector mat[fil][col],int n,int m){
+	int i,j,k;
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			for(k=0;k<mat[i][j].nvec;k++){
+				cout<<mat[i][j].vec[k]<<" ";
+			}
+			cout<<" ";
+		}
+		cout<<endl;
+	}
+}
+bool esprimo(int n){
+	bool k=true;
+	int i;
+	for(i=2;i<n;i++){
+		if(n%i==0){
+			k=false;
+		}
+	}
+	return(k);
+}
+void eliminar50primos(tvector mat[fil][col],int n,int m){
+	int i,j,k,l,c=0,cp=0;
+	int aux[100];
+	for(i=0;i<n;i++){
+		for(j=0;j<m;j++){
+			for(k=0;k<mat[i][j].nvec;k++){
+				if(esprimo(mat[i][j].vec[k])==true){
+					aux[cp]=mat[i][j].vec[k];
+					cp++;
+				}
+			}
+			if(cp>mat[i][j].nvec/2){
+				for(l=0;l<(mat[i][j].nvec);l++){
+					if(mat[i][j].vec[l]==aux[c]){
+							mat[i][j].vec[l]=mat[i][j].vec[l+1];
+							l--;
+							mat[i][j].nvec--;
+							c++;
+					}
+
+				}
+				c=0;
+			}
+			cp=0;
+		}
+	}
+}
+void main(){
+	tvector mat[fil][col];
+	int n,m;
+	cout<<"ingrese el tamaño de filas:";
+	cin>>n;
+	cout<<"ingrese el tamaño de columnas:";
+	cin>>m;
+	cargar(mat,n,m);
+	mostrar(mat,n,m);
+	cout<<endl;
+	eliminar50primos(mat,n,m);
+	mostrar(mat,n,m);
+	getch();
+}

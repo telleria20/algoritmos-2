@@ -1,0 +1,66 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+using namespace std;
+
+struct regamigo{
+	char nombre[30];
+	int edad;
+	char sexo;
+	char estado;
+};
+
+void adicionarAmigo(){
+	FILE*ptr;     //declara variable
+	regamigo reg;
+	do{
+	cout<<"ingrese el nombre:";
+	gets(reg.nombre);
+	}
+	while(strlen(reg.nombre)==0);
+	do{
+		cout<<"ingrese la edad:";
+		cin>>reg.edad;
+		if(reg.edad<1){
+		cout<<"la edad no puede ser negativa!";
+		}
+		if(reg.edad>120){
+		cout<<"la edad no puede ser mayor que 120!";
+		}
+	  }
+	while(reg.edad<1 || reg.edad>120);
+	do{
+	cout<<"ingrese el sexo: (F/M)";
+	cin>>reg.sexo;
+		if(reg.sexo!='F' && reg.sexo!='M'){
+		cout<<"\nSolo esta permitido F o M \n";
+		}
+	}
+	while(reg.sexo!='F' && reg.sexo!='M');
+	reg.estado= 'A';
+	ptr=fopen("amigos.dat","ab");    //crea el archivo
+	fwrite(&reg,sizeof(reg),1,ptr);
+	fclose(ptr);    //cierra archivo
+	getch();
+}
+void mostraramigo(){
+	FILE*ptr;
+	regamigo reg;
+	ptr=fopen("amigos.dat","rb");
+	if(ptr!=NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			cout<<" \n "<<reg.nombre<<"   "<<reg.edad<<"   "<<reg.sexo;
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}
+	else{
+		cout<<"\n EL Archivo no existe!! \n";
+	}
+}
+void main(){
+	adicionarAmigo();
+	mostraramigo();
+	getch();
+}

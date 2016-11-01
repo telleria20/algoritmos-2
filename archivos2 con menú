@@ -1,0 +1,148 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+using namespace std;
+
+struct regamigo{
+	char nombre[30];
+	int edad;
+	char sexo;
+	char estado;
+};
+void adicionarAmigo(){
+	FILE*ptr;     //declara variable
+	regamigo reg;
+	do{
+	cout<<"ingrese el nombre:";
+	gets(reg.nombre);
+	}
+	while(strlen(reg.nombre)==0);
+	do{
+		cout<<"ingrese la edad:";
+		cin>>reg.edad;
+		if(reg.edad<1){
+		cout<<"la edad no puede ser negativa!";
+		}
+		if(reg.edad>120){
+		cout<<"la edad no puede ser mayor que 120!";
+		}
+	  }
+	while(reg.edad<1 || reg.edad>120);
+	do{
+	cout<<"ingrese el sexo: (F/M)";
+	cin>>reg.sexo;
+		if(reg.sexo!='F' && reg.sexo!='M'){
+		cout<<"\nSolo esta permitido F o M \n";
+		}
+	}
+	while(reg.sexo!='F' && reg.sexo!='M');
+	reg.estado= 'A';
+	ptr=fopen("amigos.dat","ab");    //crea el archivo
+	fwrite(&reg,sizeof(reg),1,ptr);
+	fclose(ptr);    //cierra archivo
+	getch();
+}
+void listarAmigos(){
+	FILE*ptr;
+	regamigo reg;
+	int c=0;
+	ptr=fopen("amigos.dat","rb");
+	if(ptr!=NULL){
+		cout<<"\n\n==================================================================================";
+		cout<<"\n						**** LISTADO DE AMIGOS ****";
+		cout<<"\n------------------------------------------------------------------------------------";
+		cout<<"\nNroRegistro		Nombre		Edad		Sexo";
+		cout<<"\n------------------------------------------------------------------------------------";
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			c++;
+			cout<<"\n"<<c<<"    "<<reg.nombre<<"   "<<reg.edad<<"   "<<reg.sexo;
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}
+	else{
+		cout<<"\n EL Archivo no existe!! \n";
+	}
+}
+void estadisticaPromedioEdad(){
+	FILE*ptr;
+	regamigo reg;
+	int promf=0,promm=0,promt=0,cf=0,cm=0;
+	ptr=fopen("amigos.dat","rb");
+	if(ptr!=NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			if(reg.sexo=='F'){
+				promf=promf+reg.edad;
+				cf++;
+			}else{
+				promm=promm+reg.edad;
+				cm++;
+			}	
+			fread(&reg,sizeof(reg),1,ptr);
+		}	
+		fclose(ptr);
+		cout<<"\n\n---------------------------------------------------------------------------------------------";
+		if(cf>0){
+		cout<<"\n\tEl promedio de edad de las mujeres es :"<<promf/cf;
+		}
+		if(cm>0){
+		cout<<"\n\tEl promedio de edad de los hombres es :"<<promm/cm;
+		}
+		if(cm>0){
+		cout<<"\n\tEl promedio total es :"<<(promm+promf)/(cf+cm);
+		}
+		cout<<"\n\n---------------------------------------------------------------------------------------------";
+	}else{
+		cout<<"\n El archivo no existe!";
+		}
+}
+void buscarRegistro(int nroReg){
+	FILE*ptr;
+	regamigo reg;
+	ptr=fopen("amigos.dat","rb");
+	if(ptr!=NULL){
+		fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);
+		fread(&reg,sizeof(reg),1,ptr);
+		if(feof(ptr)==false){
+			if(reg.estado=='A'){
+				cout<<endl<<"\t\t"<<reg.nombre<<"\t"<<reg.sexo<<"\t"<<reg.edad;
+			}else{
+				cout<<"\nEl registro fue eliminado..!!\n";
+			}
+		}else{
+			cout<<"\nEl registro no existe..!!\n";
+		}
+		fclose(ptr);
+	}else{
+		cout<<"\nEl archivo no existe..!!";
+	}
+}
+void main(){
+	int opcion,nro;
+	do{
+		cout<<endl<<"-------------MENÚ-----------------";
+		cout<<endl<<"1.-adicionar amigo";
+		cout<<endl<<"2.-listar amigos";
+		cout<<endl<<"3.-Estadistica promedio de edad";
+		cout<<endl<<"4.-buscar Registro";
+		cout<<endl<<"0.-salir";
+		cout<<endl<<"seleccione una opcion:";
+		cin>>opcion;
+		switch(opcion){
+		case 1: adicionarAmigo();
+		break;
+		case 2 : listarAmigos();
+		break;	
+		case 3 : estadisticaPromedioEdad();
+		break;
+		case 4 : 
+			cout<<"ingrese el registro que desea buscar:";
+			cin>>nro;
+			buscarRegistro(nro);
+		break;
+		}
+	}
+	while(opcion!=0);
+}

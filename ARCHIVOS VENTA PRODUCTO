@@ -1,0 +1,139 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+using namespace std;
+
+struct regproducto{
+	int idprod;
+	char nombre[30];
+	int stock;
+	int precio;
+	char estado;
+};
+struct regventa{
+	int idventa;
+	int idprod;
+	int cantidad;
+	int idcliente;
+	char estado;
+};
+void adicionarProducto(){
+	FILE*ptr;     //declara variable
+	regproducto reg;
+	cout<<"introducir idprod:";
+	cin>>reg.idprod;
+	cout<<"introduce el nombre del producto:";
+	do{
+		gets(reg.nombre);
+	}while(strlen(reg.nombre)==0);
+	cout<<"introducir precio:";
+	cin>>reg.precio;
+	reg.stock=0;
+	reg.estado='A';
+	ptr=fopen("producto.dat","ab");    //crea el archivo
+	fwrite(&reg,sizeof(reg),1,ptr);
+	fclose(ptr);    //cierra archivo
+}
+void listarProducto(){
+	FILE*ptr;
+	regproducto reg;
+	cout<<"\n\n LISTADO DE PRODUCTOS \n";
+	ptr=fopen("producto.dat","rb");
+	if(ptr!=NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			if(reg.estado== 'A'){
+			cout<<endl<<reg.idprod<<"\t"<<reg.nombre<<"\t"<<reg.stock<<"\t"<<reg.precio;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}
+	else{
+		cout<<"\n EL Archivo no existe!! \n";
+	}
+}
+bool verificarsiexisteProducto(int ip){
+FILE*ptr;
+regproducto reg;
+bool k=false;
+ptr=fopen("producto.dat","rb");
+	if(ptr!=NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			if((reg.estado=='A')&&(reg.idprod==ip)){
+			k=true;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}else{
+		cout<<"\n el archivo no existe...\n";
+	}
+	return(k);
+}
+bool verificarStockDisponible(int ip,int cantvend){
+FILE*ptr;
+regproducto reg;
+bool k=false;
+ptr=fopen("producto.dat","rb");
+	if(ptr!=NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			if((reg.estado=='A')&&(reg.idprod==ip)&&(reg.stock>=cantvend)){
+				k=true;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}else{
+		cout<<"\n el archivo no existe...\n";
+	}
+	return(k);
+}
+void adicionarVentas(){
+	FILE*ptr;
+	regventa reg;
+	cout<<"\n Introducir idventa:";
+	cin>>reg.idventa;
+	do{
+		cout<<"Introducir idprod:";
+		cin>>reg.idprod;
+	}while(verificarsiexisteProducto(reg.idprod)==false);
+	do{
+		cout<<"Introducir cantidad vendida:";
+		cin>>reg.cantidad;
+	}while(verificarStockDisponible(reg.idprod,reg.cantidad)==false);
+	cout<<"introducir idcliente:";
+	cin>>reg.idcliente;
+	reg.estado='A';
+	ptr=fopen("ventas.dat","ab");    //crea el archivo
+	fwrite(&reg,sizeof(reg),1,ptr);
+	fclose(ptr);    //cierra archivo
+}
+void listarVentas(){
+	FILE*ptr;
+	regventa reg;
+	cout<<"\n\n LISTADO DE VENTAS \n";
+	ptr=fopen("producto.dat","rb");
+	if(ptr!=NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			if(reg.estado== 'A'){
+			cout<<endl<<reg.idventa<<"\t"<<reg.idprod<<"\t"<<reg.cantidad<<"\t"<<reg.idcliente;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}
+	else{
+		cout<<"\n EL Archivo no existe!! \n";
+	}
+}
+void main(){
+	adicionarProducto();
+	listarProducto();
+	adicionarVentas();
+	listarVentas();
+}
+

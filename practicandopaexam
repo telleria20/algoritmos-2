@@ -1,0 +1,233 @@
+#include <iostream>
+#include <conio.h>
+#include <stdio.h>
+using namespace std;
+
+struct regamigo{
+	char nombre[30];
+	int edad;
+	char sexo;
+	char estado;
+};
+void adiccionarAmigo(){
+FILE*ptr;
+regamigo reg;
+do{
+	cout<<"ingrese el nombre:";
+	gets(reg.nombre);
+}while(strlen(reg.nombre)==0);
+do{
+	cout<<"ingrese la edad:";
+	cin>>reg.edad;
+	if(reg.edad<1){
+		cout<<"la edad no puede ser negativa vuelva a ingresar!";
+	}
+	if(reg.edad>120){
+		cout<<"la edad no puede ser mayor a 120,vuelva a ingresar!";
+	}
+}while(reg.edad<1 || reg.edad>120);
+do{
+	cout<<"ingrese el sexo:";
+	cin>>reg.sexo;
+	if(reg.sexo!='F' && reg.sexo!='M'){
+		cout<<"el sexo no puede ser distinto de F o M...!!!";
+	}
+}while(reg.sexo!='F' && reg.sexo!='M');
+reg.estado='A';
+ptr=fopen("amigos.dat","ab");
+fwrite(&reg,sizeof(reg),1,ptr);
+fclose(ptr);
+getch();
+}
+void mostrarAmigos(){
+FILE*ptr;
+regamigo reg;
+int c=0;
+ptr=fopen("amigos.dat","rb");
+	if(ptr!=NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			c++;
+			cout<<"\n"<<c<<" "<<reg.nombre<<" "<<reg.edad<<" "<<reg.sexo; 
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}else{
+		cout<<"el archivo no existe!";
+	}
+}
+void buscarAmigo(int nroReg){
+FILE*ptr;
+regamigo reg;
+ptr=fopen("amigos.dat","rb");
+	if(ptr!=NULL){
+		fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);
+		fread(&reg,sizeof(reg),1,ptr);
+		if(feof(ptr)==false){
+			if(reg.estado=='A'){
+				cout<<"\n"<<reg.nombre<<" "<<reg.edad<<" "<<reg.sexo;
+			}
+			else{
+				cout<<"el registro fue eliminado!";
+			}
+		}
+		fclose(ptr);
+	}
+	else{
+		cout<<"el archivo no existe!";
+	}
+}
+void EstadisticaPromedioEdad(){
+FILE*ptr;
+regamigo reg;
+int promf=0,promm=0,promt=0,cf=0,cm=0;
+ptr=fopen("amigos.dat","rb");
+	if(ptr!=NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			if(reg.sexo=='F'){
+			promf=promf+reg.edad;
+			cf++;
+			}else{
+			promm=promm+reg.edad;
+			cm++;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+		cout<<"\n"<<"-----------------------------------------------------------";
+		if(cf>0){
+		cout<<"\n"<<"el promedio de edad de las mujeres es :"<<promf/cf;
+		}
+		if(cm>0){
+		cout<<"\n"<<"el promedio de edad de los hombres es :"<<promm/cm;
+		}
+		if(cm>0){
+		cout<<"\n"<<"el promedio de edad total es :"<<(promf+promm)/(cf+cm);
+		}
+	}else{
+		cout<<"el archivo no existe!";
+	}
+}
+void modificarAmigo(int nroReg){
+FILE*ptr;
+regamigo reg;
+int op;
+ptr=fopen("amigos.dat","r+b");
+	if(ptr!=NULL){
+		fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			if(reg.estado=='A'){
+				cout<<"\n"<<reg.nombre<<" "<<reg.edad<<" "<<reg.sexo;
+				cout<<endl<<"1.-confirmar"<<"2.-cancelar";
+				cin>>op;
+				if(op==1){
+				cout<<endl<<"ingrese el nombre:";
+				gets(reg.nombre);
+				cout<<endl<<"ingrese la edad:";
+				cin>>reg.edad;
+				cout<<endl<<"ingrese el sexo:";
+				cin>>reg.sexo;
+
+				fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);
+				fwrite(&reg,sizeof(reg),1,ptr);
+				}
+				fclose(ptr);
+			}
+			
+		}
+	}else{
+		cout<<"el archivo no existe!";
+	}
+}
+void EdadMayor(){
+FILE*ptr;
+regamigo reg;
+char nombremay[30];
+int c,op;
+ptr=fopen("amigos.dat","rb");
+	if(ptr!=NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			if(reg.estado=='A'){
+				if(reg.edad>c){
+					c=reg.edad;
+					strcpy(nombremay,reg.nombre);
+				}
+			fread(&reg,sizeof(reg),1,ptr);
+			}
+		}
+	cout<<endl<<"la edad mayor es:"<<c;
+	cout<<endl<<"le pertenece a :"<<nombremay;
+	}
+	else{
+		cout<<"el archivo no existe!";
+	}
+	fclose(ptr);
+}
+void eliminarAmigo(int nroReg){
+FILE*ptr;
+regamigo reg;
+int op;
+ptr=fopen("amigos.dat","r+b");
+	if(ptr!=NULL){
+		fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);
+		fread(&reg,sizeof(reg),1,ptr);
+		while(feof(ptr)==false){
+			if(reg.estado=='A'){
+				cout<<reg.nombre<<reg.edad<<reg.sexo;
+				cout<<endl<<"1.- confirmar"<<"\n"<<"2.- cancelar";
+				if(op==1){
+					reg.estado='E';
+					fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);
+					fwrite(&reg,sizeof(reg),1,ptr);
+				}
+			}
+		}
+	}else{
+		cout<<"el archivo no existe!";
+	}
+	fclose(ptr);
+}
+void main(){
+	int opcion,nro,num,nn;
+	do{
+		cout<<endl<<"-------------MENÚ-----------------";
+		cout<<endl<<"1.-adicionar amigo";
+		cout<<endl<<"2.-mostrar amigos";
+		cout<<endl<<"3.-buscar amigo";
+		cout<<endl<<"4.-estadistica de edades";
+		cout<<endl<<"5.-modificar amigo";
+		cout<<endl<<"6.-edad mayor";
+		cout<<endl<<"7.-eliminar amigo";
+		cout<<endl<<"0.-salir";
+		cout<<endl<<"seleccione una opcion:";
+		cin>>opcion;
+		switch(opcion){
+		case 1: adiccionarAmigo();
+		break;
+		case 2: mostrarAmigos();
+		break;
+		case 3: 
+		cout<<"ingrese el numero de registro que desea buscar:";
+		cin>>nro;
+		buscarAmigo(nro);
+		break;
+		case 4: EstadisticaPromedioEdad();
+		break;
+		case 5: 
+		cout<<"ingrese el nro de registro que desea modificar:";
+		cin>>num;
+		modificarAmigo(num);
+		break;
+		case 6: EdadMayor();
+		break;
+		case 7: 
+		cout<<"ingrese el nro del amigo que desea eliminar:";
+		eliminarAmigo(nn);
+		break;
+		}
+	}
+	while(opcion!=0);
+}

@@ -117,7 +117,7 @@ ptr=fopen("amigos.dat","r+b");
 	if(ptr!=NULL){
 		fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);
 		fread(&reg,sizeof(reg),1,ptr);
-		while(feof(ptr)==false){
+		if(feof(ptr)==false){
 			if(reg.estado=='A'){
 				cout<<"\n"<<reg.nombre<<" "<<reg.edad<<" "<<reg.sexo;
 				cout<<endl<<"1.-confirmar"<<"2.-cancelar";
@@ -133,13 +133,13 @@ ptr=fopen("amigos.dat","r+b");
 				fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);
 				fwrite(&reg,sizeof(reg),1,ptr);
 				}
-				fclose(ptr);
 			}
 			
 		}
 	}else{
 		cout<<"el archivo no existe!";
 	}
+	fclose(ptr);
 }
 void EdadMayor(){
 FILE*ptr;
@@ -174,21 +174,21 @@ ptr=fopen("amigos.dat","r+b");
 	if(ptr!=NULL){
 		fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);
 		fread(&reg,sizeof(reg),1,ptr);
-		while(feof(ptr)==false){
+		if(feof(ptr)==false){
 			if(reg.estado=='A'){
 				cout<<reg.nombre<<reg.edad<<reg.sexo;
 				cout<<endl<<"1.- confirmar"<<"\n"<<"2.- cancelar";
+				cin>>op;
 				if(op==1){
 					reg.estado='E';
 					fseek(ptr,(nroReg-1)*sizeof(reg),SEEK_SET);
 					fwrite(&reg,sizeof(reg),1,ptr);
 				}
 			}
-		}
+		}fclose(ptr);
 	}else{
 		cout<<"el archivo no existe!";
 	}
-	fclose(ptr);
 }
 void main(){
 	int opcion,nro,num,nn;
@@ -225,6 +225,7 @@ void main(){
 		break;
 		case 7: 
 		cout<<"ingrese el nro del amigo que desea eliminar:";
+		cin>>nn;
 		eliminarAmigo(nn);
 		break;
 		}

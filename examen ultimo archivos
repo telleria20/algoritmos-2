@@ -1,0 +1,134 @@
+#include <conio.h>
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+struct regamigos{
+	char nombre[20];
+	char sexo;
+	int edad;
+	char estado;
+};
+void adicionar(){
+	FILE*ptr;    
+	regamigos reg;
+	cout<<"introduce el nombre :";
+	do{
+		gets(reg.nombre);
+	}while(strlen(reg.nombre)==0);
+	cout<<"introducir sexo :";
+	cin>>reg.sexo;
+	cout<<"introducir la edad:";
+	cin>>reg.edad;
+	reg.estado='A';
+	ptr=fopen("amigos.dat","ab");   
+	fwrite(&reg,sizeof(reg),1,ptr);
+	fclose(ptr);    
+}
+void mostrar(){
+FILE*ptr;
+regamigos reg;
+ptr=fopen("amigos.dat","rb");
+if(ptr!=NULL){
+	fread(&reg,sizeof(reg),1,ptr);
+	while(feof(ptr)==false){
+		cout<<endl<<reg.nombre<<" "<<reg.sexo<<" "<<reg.edad<<" ";
+		fread(&reg,sizeof(reg),1,ptr);
+	}
+	fclose(ptr);
+}
+}
+
+void ordenarporedad(){
+FILE*ptr;
+regamigos reg;
+regamigos vecf[20],vecm[20],aux;
+int f,m,nf,nm,i,j;
+ptr=fopen("amigos.dat","rb");
+if(ptr!=NULL){
+	fread(&reg,sizeof(reg),1,ptr);
+	while(feof(ptr)==false){
+		if(reg.sexo=='f'){
+		vecf[f]=reg;
+		nf++;
+		f++;
+		}else{
+		vecm[m]=reg;
+		nm++;
+		m++;
+		}
+		fread(&reg,sizeof(reg),1,ptr);
+	}fclose(ptr);
+	for(i=0;i<nf;i++){
+		for(j=i+1;j<nf;j++){
+			if(vecf[i].edad>vecf[j].edad){
+					aux=vecf[i];
+					vecf[i]=vecf[j];
+					vecf[j]=aux;
+			}
+		}
+	}
+
+	for(i=0;i<nm;i++){
+		for(j=i+1;j<nm;j++){
+			if(vecm[i].edad>vecm[j].edad){
+					aux=vecm[i];
+					vecm[i]=vecm[j];
+					vecm[j]=aux;
+			}
+		}
+	}
+}
+ptr=fopen("mujeres.dat","wb");
+for(i=0;i<nf;i++){
+	strcpy(reg.nombre,vecf[i].nombre);
+	reg.sexo=vecf[i].sexo;
+	reg.edad=vecf[i].edad;
+	fwrite(&reg,sizeof(reg),1,ptr);
+}
+fclose(ptr);
+ptr=fopen("hombres.dat","wb");
+for(i=0;i<nm;i++){
+	strcpy(reg.nombre,vecm[i].nombre);
+	reg.sexo=vecm[i].sexo;
+	reg.edad=vecm[i].edad;
+	fwrite(&reg,sizeof(reg),1,ptr);
+}
+fclose(ptr);
+}
+void mostrarmujeres(){
+FILE*ptr;
+regamigos reg;
+ptr=fopen("mujeres.dat","rb");
+if(ptr!=NULL){
+	cout<<"\n MUJERES \n";
+	fread(&reg,sizeof(reg),1,ptr);
+	while(feof(ptr)==false){
+		cout<<endl<<reg.nombre<<" "<<reg.sexo<<" "<<reg.edad<<" ";
+		fread(&reg,sizeof(reg),1,ptr);
+	}
+	fclose(ptr);
+}
+}
+void mostrarhombres(){
+FILE*ptr;
+regamigos reg;
+ptr=fopen("hombres.dat","rb");
+if(ptr!=NULL){
+	cout<<"\n HOMBRES \n";
+	fread(&reg,sizeof(reg),1,ptr);
+	while(feof(ptr)==false){
+		cout<<endl<<reg.nombre<<" "<<reg.sexo<<" "<<reg.edad<<" ";
+		fread(&reg,sizeof(reg),1,ptr);
+	}
+	fclose(ptr);
+}
+}
+
+void main(){
+//adicionar();
+mostrar();
+ordenarporedad();
+mostrarmujeres();
+mostrarhombres();
+getch();
+}

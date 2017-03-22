@@ -1,0 +1,79 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#define MAX 100
+
+
+using namespace std;
+
+void cargarV(float v[], int n);
+void mostrarV(float v[], int n);
+void listar(float v[], int n);
+void ordenaralfabetico(float v[], int n);
+int mejornota(float v[], int n);
+void promedio(float v[], int n);
+
+void main()
+{
+	int nro, nota, opcion;
+	do{
+		cout<<"----MENU----";
+		cout<<" 1.- Ingresar alumno y su nota:";
+		cout<<" 2.- Listar alumnos:";
+		cout<<" 3.- Ordenar alfabeticamente:";
+		cout<<" 4.- Sacar la mejor nota:";
+		cout<<" 5.- Sacar el promedio de notas:";
+		cout<<" 0.- Salir";
+		cin>>opcion;
+		switch (opcion){
+		case 1: 
+
+			break;
+		case 2:
+
+			break;
+		case 3:
+
+			break;
+		case 4:
+
+			break;
+		case 5:
+
+			break;
+		
+		default: cout<<"opcion invalida:";
+		}
+	}while (opcion!=0);
+
+		getch();
+}
+
+
+
+void cargarV(float v[], int n){
+	int i;
+	for(i=0;i<n;i++){
+		cout<<"Ingrese el nro de registro del alumno:";
+		cin>>v[i];
+	}
+}
+
+void mostrarV(float v[], int n){
+	int i;
+	for(i=0;i<n;i++){
+		cout<<v[i]<<" ";
+	}
+}
+
+float promedio(float v[], int n){
+	float s=0;
+	int i;
+	for(i=0;i<n;i++){
+		s=s+v[i];
+		return s/n;
+	}
+}
+
+
+void ordenaralfabetico( string v[]
